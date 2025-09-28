@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Making your first Phaser 3 Game - Part 1</title>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -88,8 +88,19 @@
         setXY: { x: 12, y: 0, stepX: 70 }
         });
 
+        var scene = this;
+
         stars.children.iterate(function (child) {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            const fx = child.postFX.addShine(Math.random(), .2, 5);
+            scene.add.tween({
+                targets: child,  // Target the individual star, not the group
+                duration: 100,
+                repeatDelay: 800,
+                scaleX: -1,
+                repeat: -1
+            });
+            
         });
         this.physics.add.collider(stars, platforms);
         this.physics.add.overlap(player, stars, collectStar, null, this);
